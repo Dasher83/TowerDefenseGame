@@ -1,23 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Turret : MonoBehaviour
+public class Turret : MonoBehaviour, IDamageable
 {
     // Instance of the class
     [Header("Turret Attributes")]
+    [HideInInspector]
     public static Turret instance;
-    public Transform shootPoint;
-    public GameObject bullet;
+    [SerializeField]
+    private Transform shootPoint;
+    [SerializeField]
+    private GameObject bullet;
 
     [Header("Turret Properties")]
-    public int totalLives = 5;
-    public int currentLives = 5;
-    public float viewDistance;
+    [SerializeField]
+    private int totalLives = Constants.Turret.InitialTotalLives;
+    [SerializeField]
+    private int currentLives = Constants.Turret.InitialTotalLives;
+    [SerializeField]
+    private float viewDistance;
     public float fireRate;
-    public float fireForce;
-    public float bulletSpeed;
-    public bool isChildTurret = false;
+    [SerializeField]
+    private float fireForce;
+    [SerializeField]
+    private float bulletSpeed;
+    [SerializeField]
+    private bool isBabyTurret = false;
 
     private float nextTimeToFire = 0;
     private Transform lockedOnTarget;
@@ -40,26 +47,12 @@ public class Turret : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("UpdateTarget", 0.0f, 0.5f);
+        InvokeRepeating("UpdateTarget", 0.0f, Constants.Turret.UpdateTargetRate);
     }
 
     // Update is called once per frame
     void Update()
     {
-        #region -- Game over check --
-        if (currentLives <= 0)
-        {
-            currentLives = 0;
-            Destroy(gameObject);
-            if (!isChildTurret)
-            {
-                Time.timeScale = 0;
-                Debug.Log("GAME OVER");
-                return;
-            }
-        }
-        #endregion
-
         #region -- Lock next target and shoot --
         if (lockedOnTarget != null)
         {
@@ -68,7 +61,7 @@ public class Turret : MonoBehaviour
             RaycastHit2D rayInfo = Physics2D.Raycast(transform.position, direction, viewDistance);
             if (rayInfo)
             {
-                if (rayInfo.collider.gameObject.tag == "Unit")
+                if (rayInfo.collider.gameObject.tag == Constants.Tags.Unit)
                 {
                     if (detected == false)
                     {
@@ -106,7 +99,7 @@ public class Turret : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(this.transform.position, this.viewDistance);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(this.transform.position, .25f);
+        Gizmos.DrawWireSphere(this.transform.position, Constants.Turret.InnerRingGizmoRadio);
         Gizmos.color = Color.cyan;
         if (this.closestEnemyPosition != null)
         {
@@ -116,7 +109,7 @@ public class Turret : MonoBehaviour
 
     void UpdateTarget()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Unit");
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(Constants.Tags.Unit);
         float shortestDistance = Mathf.Infinity;
         GameObject closestEnemy = null;
 
@@ -124,7 +117,7 @@ public class Turret : MonoBehaviour
         {
             float distance = Vector3.Distance(this.transform.position, enemy.transform.position);
 
-            if (this.isChildTurret && distance <= 0.35f)
+            if (this.isBabyTurret && distance <= Constants.Turret.BabyMinimumSafeDistance)
             {
                 Destroy(this.gameObject);
             }
@@ -148,6 +141,21 @@ public class Turret : MonoBehaviour
         else
         {
             this.lockedOnTarget = null;
+        }
+    }
+
+    public void ReceiveDamage(float attack)
+    {
+        this.currentLives -= Mathf.FloorToInt(attack);
+        if (this.currentLives < 1)
+        {
+            Destroy(this.gameObject);
+            if (!isBabyTurret)
+            {
+                Time.timeScale = 0;
+                Debug.Log("GAME OVER");
+                Application.Quit();
+            }
         }
     }
 }
