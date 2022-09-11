@@ -153,8 +153,8 @@ public class Turret : MonoBehaviour, IDamageable
             if (!isBabyTurret)
             {
                 Time.timeScale = 0;
-                Debug.Log("GAME OVER");
-                Application.Quit();
+                CustomSceneManager.instance.ChangeToMainMenuScene();
+                return;
             }
         }
     }
