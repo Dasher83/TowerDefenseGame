@@ -1,4 +1,6 @@
 ﻿public enum UnitTypesEnum
 {
-    Level1,
+    Basic_1,
+    Speedster_1,
+    Tank_1,
 }

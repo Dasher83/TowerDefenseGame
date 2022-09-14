@@ -3,11 +3,11 @@
 public class Unit : MonoBehaviour, IDamageable
 {
     [SerializeField]
-    private UnitTypesEnum unitType = UnitTypesEnum.Level1;
+    private UnitTypesEnum unitType;
     [SerializeField]
     private float health = 1;
     [SerializeField]
-    private float movementSpeed = Constants.Unit.DefaultMovementSpeed;
+    private float movementSpeed;
     private Rigidbody2D rb;
     private Vector2 selfMovement;
     public Transform target;
@@ -55,12 +55,15 @@ public class Unit : MonoBehaviour, IDamageable
     public void ReceiveDamage(float attack)
     {
         this.health -= Mathf.FloorToInt(attack);
-        Destroy(this.gameObject);
-        switch (this.unitType)
+        if (this.health <= 0)
         {
-            case UnitTypesEnum.Level1:
-                // No special event for now
-                break;
+            Destroy(this.gameObject);
+            switch (this.unitType)
+            {
+                case UnitTypesEnum.Basic_1:
+                    // No special event for now
+                    break;
+            }
         }
     }
 }

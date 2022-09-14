@@ -13,7 +13,6 @@
     public static class Unit
     {
         public const float MinimumSafeDistance = 1.5f;
-        public const float DefaultMovementSpeed = 100f;
     }
 
     public static class Bullet

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4721109284220801523}
   - component: {fileID: 321243692647907630}
   m_Layer: 0
-  m_Name: Unit-Level1
+  m_Name: Unit-Basic-1
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 4721109284220801522}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.99, y: -0.03, z: -1.3387372}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -144,6 +144,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitType: 0
-  health: 1
-  movementSpeed: 0.4
+  health: 2
+  movementSpeed: 1
   target: {fileID: 2786550969624446741, guid: 5a98895e4e16c644ca1678b5d1c1a24a, type: 3}
