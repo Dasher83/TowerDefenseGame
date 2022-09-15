@@ -12,8 +12,8 @@ public class Turret : MonoBehaviour, IDamageable
     private GameObject bullet;
 
     [Header("Turret Properties")]
-    [SerializeField]
-    private int totalLives = Constants.Turret.InitialTotalLives;
+    //[SerializeField]
+    //private int totalLives = Constants.Turret.InitialTotalLives;
     [SerializeField]
     private int currentLives = Constants.Turret.InitialTotalLives;
     [SerializeField]
@@ -154,7 +154,6 @@ public class Turret : MonoBehaviour, IDamageable
             {
                 Time.timeScale = 0;
                 CustomSceneManager.instance.ChangeToMainMenuScene();
-                return;
             }
         }
     }

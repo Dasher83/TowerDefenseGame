@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CustomSceneManager : MonoBehaviour
+public class CustomSceneManager: MonoBehaviour
 {
     public static CustomSceneManager instance;
 
@@ -19,6 +19,7 @@ public class CustomSceneManager : MonoBehaviour
 
     public void ChangeToGameScene()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("Game");
     }
 

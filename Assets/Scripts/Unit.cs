@@ -47,7 +47,10 @@ public class Unit : MonoBehaviour, IDamageable
 
         if (Vector3.Distance(this.transform.position, this.target.position) <= Constants.Unit.MinimumSafeDistance)
         {
-            Turret.instance.ReceiveDamage(attack: 1);
+            if(Turret.instance != null)
+            {
+                Turret.instance.ReceiveDamage(attack: 1);
+            }
             this.ReceiveDamage(attack: this.health);
         }
     }
