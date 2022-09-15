@@ -5,7 +5,7 @@ public class ProgressBar : MonoBehaviour
 {
     private float maximum;
     private float current;
-    public Image mask;
+    public Slider slider;
 
     public float Current { set { current = value; } }
     public float Maximum { set { maximum = value; } }
@@ -18,6 +18,6 @@ public class ProgressBar : MonoBehaviour
     private void SetFillAmount()
     {
         float progress = current / maximum;
-        mask.fillAmount = progress;
+        slider.value = progress;
     }
 }
