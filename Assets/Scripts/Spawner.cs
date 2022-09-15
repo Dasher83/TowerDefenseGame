@@ -37,6 +37,7 @@ public class Spawner : MonoBehaviour
         waveLimit = 25;
         timer = 2.5f;
         timeOfWaves = 6.5f;
+        progressBar.Maximum = timeOfWaves;
         enemiesPerWave = 5;
     }
 
@@ -52,7 +53,7 @@ public class Spawner : MonoBehaviour
         }
 
         timer -= Time.deltaTime;
-        progressBar.current = timer;
+        progressBar.Current = timer;
     }
 
     IEnumerator WavePhaseState()

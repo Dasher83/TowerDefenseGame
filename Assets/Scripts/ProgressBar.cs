@@ -3,9 +3,12 @@ using UnityEngine.UI;
 
 public class ProgressBar : MonoBehaviour
 {
-    public float maximum;
-    public float current;
+    private float maximum;
+    private float current;
     public Image mask;
+
+    public float Current { set { current = value; } }
+    public float Maximum { set { maximum = value; } }
 
     private void Update()
     {
