@@ -25,6 +25,49 @@
         public const float OffSet = 1.5f;
     }
 
+    public static class Waves
+    {
+        public const int WaveLimit = 10;
+    }
+
+    public static class Phases
+    {
+        public static class Phase1
+        {
+            public const int EnemiesPerWave = 5;
+            public const float TimeOfWave = 6.5f;
+            public const float TimeBetweenSpawns = 1f;
+        }
+
+        public static class Phase2
+        {
+            public const int EnemiesPerWave = 7;
+            public const float TimeOfWave = 6.5f;
+            public const float TimeBetweenSpawns = 1f;
+        }
+
+        public static class Phase3
+        {
+            public const int EnemiesPerWave = 9;
+            public const float TimeOfWave = 6.5f;
+            public const float TimeBetweenSpawns = 1f;
+        }
+
+        public static class Phase4
+        {
+            public const int EnemiesPerWave = 11;
+            public const float TimeOfWave = 6.5f;
+            public const float TimeBetweenSpawns = 1f;
+        }
+
+        public static class Phase5
+        {
+            public const int EnemiesPerWave = 13;
+            public const float TimeOfWave = 6.5f;
+            public const float TimeBetweenSpawns = 1f;
+        }
+    }
+
     public static class Tags
     {
         public const string Unit = "Unit";

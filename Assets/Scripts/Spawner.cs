@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -10,15 +9,11 @@ public class Spawner : MonoBehaviour
     public Transform target;
     public ProgressBar progressBar;
 
-    [Header("Wave Customization")]
-    private int waveIndex;
-    public int waveLimit;
-    public float timer;
-    public float timeOfWaves;
-    public int enemiesPerWave;
-
-    [Header("Wave internal Attributes")]
-    public WavePhase wavePhase;
+    [SerializeField]
+    private WaveCounter _waveCounter;
+    [SerializeField]
+    private string _currentPhaseName; // This is just to monitor it from the inspector
+    private PhasesContext _phasesContext;
 
     private void Awake()
     {
@@ -32,62 +27,42 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        waveIndex = 0;
-        wavePhase = WavePhase.PHASE_1;
-        waveLimit = 25;
-        timer = 2.5f;
-        timeOfWaves = 6.5f;
-        progressBar.Maximum = timeOfWaves;
-        enemiesPerWave = 5;
+        _waveCounter = new WaveCounter();
+        _phasesContext = new PhasesContext(this, _waveCounter);
+        progressBar.Maximum = _phasesContext.TimeLeft;
     }
 
     private void Update()
     {
-        if(waveIndex != waveLimit)
+        _currentPhaseName = _phasesContext.PhaseName;
+        if (_phasesContext.NoMorePhases && _phasesContext.OutOfTime)
         {
-            if(timer <= 0.0f)
-            {
-                StartCoroutine(WavePhaseState());
-                timer = timeOfWaves;
-            }
+            _phasesContext = new PhasesContext(this, _waveCounter, new Phase5(earlySpawn: true));
         }
 
-        timer -= Time.deltaTime;
-        progressBar.Current = timer;
+        if(_waveCounter.WavesLeft > 0)
+        {
+            _phasesContext.Countdown(Time.deltaTime);
+            progressBar.Current = _phasesContext.TimeLeft;
+        }
     }
 
-    IEnumerator WavePhaseState()
+    public void SpawnEnemies(int enemies)
     {
-        waveIndex++;
-        switch (wavePhase)
+        StartCoroutine(SpawnEnemiesCorutine(enemies));
+    }
+
+    IEnumerator SpawnEnemiesCorutine(int enemies)
+    {
+        if(_phasesContext == null)
         {
-            case WavePhase.PHASE_1:
-                wavePhase = WavePhase.PHASE_2;
-                break;
-            case WavePhase.PHASE_2:
-                enemiesPerWave += 2;
-                wavePhase = WavePhase.PHASE_3;
-                break;
-            case WavePhase.PHASE_3:
-                enemiesPerWave += 2;
-                wavePhase = WavePhase.PHASE_4;
-                break;
-            case WavePhase.PHASE_4:
-                enemiesPerWave += 2;
-                wavePhase = WavePhase.PHASE_5;
-                break;
-            case WavePhase.PHASE_5:
-                enemiesPerWave += 2;
-                break;
-            default:
-                waveIndex--;
-                break;
+            yield break;
         }
 
-        for(int i = 0; i < enemiesPerWave; i++)
+        for(int i = 0; i < enemies; i++)
         {
             SpawnEnemy();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(_phasesContext.TimeBetweenSpawns);
         }
     }
 
