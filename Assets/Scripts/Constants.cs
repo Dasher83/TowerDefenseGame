@@ -68,6 +68,12 @@
         }
     }
 
+    public static class HealthBar
+    {
+        public const float DefaultMaximum = 5f;
+        public const float Minimum = 0f;
+    }
+
     public static class Tags
     {
         public const string Unit = "Unit";
