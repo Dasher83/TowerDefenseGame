@@ -8,9 +8,11 @@ public class HealthBar : MonoBehaviour
     private float _maximum;
     [SerializeField]
     private float _current;
-    
+    private IDurable _target;
+
     public Image mask;
     public TextMeshProUGUI textLivesCounter;
+    
 
     public float Current
     {
@@ -58,6 +60,7 @@ public class HealthBar : MonoBehaviour
 
     private void Start()
     {
+        _target = GameObject.FindGameObjectWithTag(Constants.Tags.Player).GetComponent<IDurable>();
         _maximum = Constants.HealthBar.DefaultMaximum;
         _current = _maximum;
         SetFillAmount();
@@ -66,6 +69,8 @@ public class HealthBar : MonoBehaviour
 
     private void Update()
     {
+        _current = _target.CurrentDurability;
+        _maximum = _target.MaxDurability;
         SetFillAmount();
         SetTextLivesCounter();
     }

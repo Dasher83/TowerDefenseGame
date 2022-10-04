@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Turret : MonoBehaviour, IDamageable
+public class Turret : MonoBehaviour, IDamageable, IDurable
 {
     // Instance of the class
     [Header("Turret Attributes")]
@@ -12,10 +12,10 @@ public class Turret : MonoBehaviour, IDamageable
     private GameObject bullet;
 
     [Header("Turret Properties")]
-    //[SerializeField]
-    //private int totalLives = Constants.Turret.InitialTotalLives;
     [SerializeField]
-    private int currentLives = Constants.Turret.InitialTotalLives;
+    private int _totalLives = Constants.Turret.InitialTotalLives;
+    [SerializeField]
+    private int _currentLives = Constants.Turret.InitialTotalLives;
     [SerializeField]
     private float viewDistance;
     public float fireRate;
@@ -31,6 +31,34 @@ public class Turret : MonoBehaviour, IDamageable
     private Vector3 closestEnemyPosition;
     private Vector2 direction;
     private bool detected = false;
+
+    public float CurrentDurability
+    {
+        get
+        {
+            if(_currentLives < 0)
+            {
+                _currentLives = 0;
+            }
+            if(_currentLives > _totalLives)
+            {
+                _currentLives = _totalLives;
+            }
+            return _currentLives;
+        }
+    }
+
+    public float MaxDurability
+    {
+        get
+        {
+            if(_totalLives < _currentLives)
+            {
+                _totalLives = _currentLives;
+            }
+            return _totalLives;
+        }
+    }
 
     private void Awake()
     {
@@ -146,8 +174,8 @@ public class Turret : MonoBehaviour, IDamageable
 
     public void ReceiveDamage(float attack)
     {
-        this.currentLives -= Mathf.FloorToInt(attack);
-        if (this.currentLives < 1)
+        _currentLives -= Mathf.FloorToInt(attack);
+        if (_currentLives < 1)
         {
             Destroy(this.gameObject);
             if (!isBabyTurret)
