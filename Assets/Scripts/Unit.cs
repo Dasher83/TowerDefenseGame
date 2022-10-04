@@ -61,6 +61,8 @@ public class Unit : MonoBehaviour, IDamageable
         if (this.health <= 0)
         {
             Destroy(this.gameObject);
+            CoinCounter coinCounter = GameObject.FindGameObjectWithTag(Constants.Tags.Wallet).GetComponent<CoinCounter>();
+            coinCounter.AddCoins(10);
             switch (this.unitType)
             {
                 case UnitTypesEnum.Basic_1:

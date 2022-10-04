@@ -79,5 +79,6 @@
         public const string Unit = "Unit";
         public const string Respawn = "Respawn";
         public const string Player = "Player";
+        public const string Wallet = "Wallet";
     }
 }
