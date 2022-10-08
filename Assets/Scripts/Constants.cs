@@ -81,4 +81,13 @@
         public const string Player = "Player";
         public const string Wallet = "Wallet";
     }
+
+    public static class LevelManager
+    {
+        public const float InitialIndependentShotDamage = 1f;
+        public const int InitialCriticalFactor = 12;
+        public const float CriticalDamageMultiplierMinimum = 1.5f;
+        public const float CriticalDamageMultiplierMaximum = 2.5f;
+        public const float InitialBulletDamage = 1f;
+    }
 }

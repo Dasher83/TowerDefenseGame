@@ -119,6 +119,7 @@ public class Turret : MonoBehaviour, IDamageable, IDurable
     void Shoot()
     {
         GameObject bulletInstance = Instantiate(bullet, shootPoint.position, Quaternion.identity);
+        bulletInstance.GetComponent<BulletDestruction>().DamageOnImpact = LevelManager.instance.CalculateShotDamage();
         bulletInstance.GetComponent<Rigidbody2D>().AddForce(direction * fireForce * bulletSpeed);
     }
 
