@@ -24,7 +24,6 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     # region -- Economy attributes & properties
-    private CoinCounterUI _coinCounterUI;
     private uint _coins;
     public uint Coins {
         get
@@ -36,6 +35,11 @@ public class LevelManager : MonoBehaviour
             _coins = value;
         }
     }
+    #endregion
+
+    # region -- UI attributes --
+    public HealthBar playerHealthBar;
+    private CoinCounterUI _coinCounterUI;
     # endregion
 
     private void Start()
@@ -54,6 +58,7 @@ public class LevelManager : MonoBehaviour
         _bulletDamage = Constants.LevelManager.InitialBulletDamage;
         _coinCounterUI = GameObject.FindGameObjectWithTag(
             Constants.Tags.Wallet).GetComponent<CoinCounterUI>();
+        playerHealthBar.Target = GameObject.FindGameObjectWithTag(Constants.Tags.Player).GetComponent<IDurable>();
     }
 
     private void Update()

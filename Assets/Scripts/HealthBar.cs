@@ -58,17 +58,24 @@ public class HealthBar : MonoBehaviour
         textLivesCounter.text = $"{Mathf.FloorToInt(Current)} / {Mathf.FloorToInt(Maximum)}";
     }
 
-    private void Start()
+    public IDurable Target
     {
-        _target = GameObject.FindGameObjectWithTag(Constants.Tags.Player).GetComponent<IDurable>();
-        _maximum = Constants.HealthBar.DefaultMaximum;
-        _current = _maximum;
-        SetFillAmount();
-        SetTextLivesCounter();
+        set
+        {
+            _target = value;
+            _maximum = _target.MaxDurability;
+            _current = _target.CurrentDurability;
+            SetFillAmount();
+            SetTextLivesCounter();
+        }
     }
 
     private void Update()
     {
+        if (_target == null)
+        {
+            return;
+        }
         _current = _target.CurrentDurability;
         _maximum = _target.MaxDurability;
         SetFillAmount();
