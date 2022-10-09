@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CoinCounter : MonoBehaviour
+public class CoinCounterUI : MonoBehaviour
 {
     public TMPro.TextMeshProUGUI label;
     
@@ -11,17 +11,13 @@ public class CoinCounter : MonoBehaviour
     { 
         get 
         { 
-            if( _coins < 0)
-            {
-                _coins = 0;
-            }
             return _coins; 
-        } 
-    }
-
-    public void AddCoins(uint coinsToAdd)
-    {
-        _coins += coinsToAdd;
+        }
+        
+        set
+        {
+            _coins = value;
+        }
     }
 
     private void SetText()

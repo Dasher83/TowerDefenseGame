@@ -61,12 +61,16 @@ public class Unit : MonoBehaviour, IDamageable
         if (this.health <= 0)
         {
             Destroy(this.gameObject);
-            CoinCounter coinCounter = GameObject.FindGameObjectWithTag(Constants.Tags.Wallet).GetComponent<CoinCounter>();
-            coinCounter.AddCoins(10);
             switch (this.unitType)
             {
                 case UnitTypesEnum.Basic_1:
-                    // No special event for now
+                    LevelManager.instance.Coins += Constants.Unit.UnitBasic_1.CoinYield;
+                    break;
+                case UnitTypesEnum.Speedster_1:
+                    LevelManager.instance.Coins += Constants.Unit.UnitSpeedster_1.CoinYield;
+                    break;
+                case UnitTypesEnum.Tank_1:
+                    LevelManager.instance.Coins += Constants.Unit.UnitTank_1.CoinYield;
                     break;
             }
         }

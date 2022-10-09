@@ -23,6 +23,21 @@ public class LevelManager : MonoBehaviour
     }
     #endregion
 
+    # region -- Economy attributes & properties
+    private CoinCounterUI _coinCounterUI;
+    private uint _coins;
+    public uint Coins {
+        get
+        {
+            return _coins;
+        }
+        set
+        {
+            _coins = value;
+        }
+    }
+    # endregion
+
     private void Start()
     {
         if(instance != null)
@@ -37,6 +52,13 @@ public class LevelManager : MonoBehaviour
         _independentShotDamage = Constants.LevelManager.InitialIndependentShotDamage;
         _criticalFactor = Constants.LevelManager.InitialCriticalFactor;
         _bulletDamage = Constants.LevelManager.InitialBulletDamage;
+        _coinCounterUI = GameObject.FindGameObjectWithTag(
+            Constants.Tags.Wallet).GetComponent<CoinCounterUI>();
+    }
+
+    private void Update()
+    {
+        _coinCounterUI.Coins = Coins;
     }
 
     public float CalculateShotDamage()

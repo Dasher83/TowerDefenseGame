@@ -13,6 +13,21 @@
     public static class Unit
     {
         public const float MinimumSafeDistance = 1.5f;
+
+        public static class UnitBasic_1
+        {
+            public const int CoinYield = 1;
+        }
+
+        public static class UnitSpeedster_1
+        {
+            public const int CoinYield = 2;
+        }
+
+        public static class UnitTank_1
+        {
+            public const int CoinYield = 4;
+        }
     }
 
     public static class Bullet
