@@ -14,19 +14,22 @@
     {
         public const float MinimumSafeDistance = 1.5f;
 
-        public static class UnitBasic_1
+        public static class Basic_1
         {
             public const int CoinYield = 1;
+            public const float SpawnSoundEffectDelay = 1f;
         }
 
-        public static class UnitSpeedster_1
+        public static class Speedster_1
         {
             public const int CoinYield = 2;
+            public const float SpawnSoundEffectDelay = 0.5f;
         }
 
-        public static class UnitTank_1
+        public static class Tank_1
         {
             public const int CoinYield = 4;
+            public const float SpawnSoundEffectDelay = 2f;
         }
     }
 
@@ -37,7 +40,7 @@
 
     public static class SpawnPoint
     {
-        public const float OffSet = 1.5f;
+        public const float OffSet = 1f;
     }
 
     public static class Waves
@@ -104,5 +107,10 @@
         public const float CriticalDamageMultiplierMinimum = 1.5f;
         public const float CriticalDamageMultiplierMaximum = 2.5f;
         public const float InitialBulletDamage = 1f;
+    }
+
+    public static class AudioManager
+    {
+        public const float InBetweenSongsPauseLength = 0.3f;
     }
 }

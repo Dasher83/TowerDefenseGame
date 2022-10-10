@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using TMPro.Examples;
+using UnityEngine;
 
 public class Unit : MonoBehaviour, IDamageable
 {
     [SerializeField]
-    private UnitTypesEnum unitType;
+    private UnitTypesEnum _unitType;
     [SerializeField]
-    private float health = 1;
+    private float health;
     [SerializeField]
     private float movementSpeed;
     private Rigidbody2D rb;
@@ -57,22 +58,45 @@ public class Unit : MonoBehaviour, IDamageable
 
     public void ReceiveDamage(float attack)
     {
-        this.health -= Mathf.FloorToInt(attack);
+        this.health -= attack;
         if (this.health <= 0)
         {
             Destroy(this.gameObject);
-            switch (this.unitType)
+            switch (_unitType)
             {
                 case UnitTypesEnum.Basic_1:
-                    LevelManager.instance.Coins += Constants.Unit.UnitBasic_1.CoinYield;
+                    LevelManager.instance.Coins += Constants.Unit.Basic_1.CoinYield;
                     break;
                 case UnitTypesEnum.Speedster_1:
-                    LevelManager.instance.Coins += Constants.Unit.UnitSpeedster_1.CoinYield;
+                    LevelManager.instance.Coins += Constants.Unit.Speedster_1.CoinYield;
                     break;
                 case UnitTypesEnum.Tank_1:
-                    LevelManager.instance.Coins += Constants.Unit.UnitTank_1.CoinYield;
+                    LevelManager.instance.Coins += Constants.Unit.Tank_1.CoinYield;
                     break;
             }
         }
+    }
+
+    private float SpawnDelay
+    {
+        get
+        {
+            switch (_unitType)
+            {
+                case UnitTypesEnum.Basic_1:
+                    return Constants.Unit.Basic_1.SpawnSoundEffectDelay;
+                case UnitTypesEnum.Speedster_1:
+                    return Constants.Unit.Speedster_1.SpawnSoundEffectDelay;
+                case UnitTypesEnum.Tank_1:
+                    return Constants.Unit.Tank_1.SpawnSoundEffectDelay;
+                default:
+                    return 0f;
+            }
+        }
+    }
+
+    private void OnBecameVisible()
+    {
+        AudioManager.instance.PlaySoundEffect(SoundEffectsEnum.ENEMY_SPAWN, SpawnDelay);
     }
 }

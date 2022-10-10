@@ -121,6 +121,7 @@ public class Turret : MonoBehaviour, IDamageable, IDurable
         GameObject bulletInstance = Instantiate(bullet, shootPoint.position, Quaternion.identity);
         bulletInstance.GetComponent<BulletDestruction>().DamageOnImpact = LevelManager.instance.CalculateShotDamage();
         bulletInstance.GetComponent<Rigidbody2D>().AddForce(direction * fireForce * bulletSpeed);
+        AudioManager.instance.PlaySoundEffect(SoundEffectsEnum.SHOT);
     }
 
     private void OnDrawGizmosSelected()
@@ -176,13 +177,17 @@ public class Turret : MonoBehaviour, IDamageable, IDurable
     public void ReceiveDamage(float attack)
     {
         _currentLives -= Mathf.FloorToInt(attack);
+        AudioManager.instance.PlaySoundEffect(SoundEffectsEnum.TURRET_DAMAGE);
         if (_currentLives < 1)
         {
+            AudioManager.instance.PlaySoundEffect(SoundEffectsEnum.TURRET_DESTRUCTION);
             Destroy(this.gameObject);
             if (!isBabyTurret)
             {
                 Time.timeScale = 0;
-                CustomSceneManager.instance.ChangeToMainMenuScene();
+                // The below line will be commented until a proper game over popup is implemented. Otherwise we would miss the death sound
+                //CustomSceneManager.instance.ChangeToMainMenuScene();
+                AudioManager.instance.StopSong();
             }
         }
     }

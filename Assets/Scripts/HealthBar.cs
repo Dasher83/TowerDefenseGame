@@ -55,7 +55,7 @@ public class HealthBar : MonoBehaviour
 
     private void SetTextLivesCounter()
     {
-        textLivesCounter.text = $"{Mathf.FloorToInt(Current)} / {Mathf.FloorToInt(Maximum)}";
+        textLivesCounter.text = $"{Mathf.CeilToInt(Current)} / {Mathf.CeilToInt(Maximum)}";
     }
 
     public IDurable Target
